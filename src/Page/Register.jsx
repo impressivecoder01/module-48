@@ -1,14 +1,23 @@
 // import React from 'react';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
 import { auth } from '../Components/firebase';
+import { useState } from 'react';
 const Register = () => {
+    const [error, setError] = useState('')
+    const [success, setSuccess] = useState(false)
     const handleRegister = (e) => {
         e.preventDefault();
         const email = e.target.email.value 
         const password = e.target.password.value 
+        setError('')
+        setSuccess(false)
         createUserWithEmailAndPassword( auth,email, password)
-        .then(res => console.log(res.user))
-        .catch(err => console.log(err))
+        .then(res => {
+            console.log(res.user)
+            setSuccess(true)
+            e.target.reset()
+        })
+        .catch(err => setError(err.message))
     }
     return (
         <div className="hero bg-base-200 min-h-screen">
@@ -28,6 +37,12 @@ const Register = () => {
           <div><a className="link link-hover">Forgot password?</a></div>
           <button className="btn btn-neutral mt-4">Sign In</button>
         </fieldset>
+        {
+            success && <p className='text-2xl text-green-600'>Account created successfully</p>
+        }
+        {
+            error && <p className='text-2xl text-red-600'>{error}</p>
+        }
         </form>
       </div>
     </div>
