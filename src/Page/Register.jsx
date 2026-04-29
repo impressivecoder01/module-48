@@ -3,12 +3,21 @@ import {createUserWithEmailAndPassword} from 'firebase/auth';
 import { auth } from '../Components/firebase';
 import { useState } from 'react';
 const Register = () => {
+
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
     const handleRegister = (e) => {
         e.preventDefault();
+        // e.target.reset()
         const email = e.target.email.value 
         const password = e.target.password.value 
+        const passwordPatter =/^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+        if(!passwordPatter.test(password)){
+            console.log('passs')
+            setError('pass must be long and ')
+            return;
+        }
+
         setError('')
         setSuccess(false)
         createUserWithEmailAndPassword( auth,email, password)
