@@ -3,18 +3,24 @@
 import { Link } from "react-router";
 import {signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../Components/firebase";
+import { useState } from "react";
 
 const Login = () => {
 
+    const [error, setError] = useState('')
+    const [success, setSuccess] = useState('')
     const handleLogin = e => {
         e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
+    setError('')
         signInWithEmailAndPassword(auth, email, password)
         .then(res => {
             console.log(res.user)
+            setSuccess('Login in successfully done.')
+            e.target.reset()
         })
-        .catch(err => console.log(err.message))
+        .catch(err => setError(err.message))
     }
 
     return (
@@ -32,7 +38,10 @@ const Login = () => {
           <div><a className="link link-hover">Forgot password?</a></div>
           <button className="btn btn-neutral mt-4">Login</button>
         </fieldset>
-        </form>
+        </form> 
+        {
+            error ? <p className="text-red-400">Input right email and password</p> : success
+        }
         <p className="text-xl font-bold">Do not have an account? <Link className="text-green-300 underline" to={`/register`}>Register here.</Link></p>
       </div>
     </div>
