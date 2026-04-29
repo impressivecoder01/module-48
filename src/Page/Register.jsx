@@ -2,10 +2,14 @@
 import {createUserWithEmailAndPassword} from 'firebase/auth';
 import { auth } from '../Components/firebase';
 import { useState } from 'react';
+import { FaEye, FaRegEyeSlash } from "react-icons/fa";
+
+
 const Register = () => {
 
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
     const handleRegister = (e) => {
         e.preventDefault();
         // e.target.reset()
@@ -14,7 +18,7 @@ const Register = () => {
         const passwordPatter =/^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
         if(!passwordPatter.test(password)){
             console.log('passs')
-            setError('pass must be long and ')
+            setError('pass must be long and have to uppercase and a lowercase')
             return;
         }
 
@@ -27,6 +31,11 @@ const Register = () => {
             e.target.reset()
         })
         .catch(err => setError(err.message))
+    }
+
+    const handleShowPassword = e => {
+      e.preventDefault();
+      setShowPassword(!showPassword)
     }
     return (
         <div className="hero bg-base-200 min-h-screen">
@@ -42,7 +51,10 @@ const Register = () => {
           <label className="label">Email</label>
           <input type="email" name="email" className="input" placeholder="Email" />
           <label className="label">Password</label>
-          <input type="password" name="password" className="input" placeholder="Password" />
+          <div className='relative'>
+            <input type={showPassword ? 'text' : 'password'} name="password" className="input" placeholder="Password" />
+            <button onClick={handleShowPassword} className="btn btn-xs absolute right-3 top-2">{showPassword? <FaRegEyeSlash /> : <FaEye />}</button>
+          </div>
           <div><a className="link link-hover">Forgot password?</a></div>
           <button className="btn btn-neutral mt-4">Sign In</button>
         </fieldset>
