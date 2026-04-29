@@ -1,10 +1,32 @@
 // import React from 'react';
 
+import { Link } from "react-router";
+
 const Login = () => {
+    const handleLogin = e => {
+        e.preventDefault();
+    }
     return (
-        <div>
-            <h1>Login</h1>
-        </div>
+        <div className="hero bg-base-200 min-h-screen">
+  <div className="hero-content flex-col lg:flex-row-reverse">
+    <h className={`bg-black w-full text-white text-center p-2 rounded-xl`}>Login Form</h>
+    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+      <div className="card-body">
+        <form onClick={handleLogin} className="">
+            <fieldset className="fieldset">
+          <label className="label">Email</label>
+          <input type="email" className="input" placeholder="Email" />
+          <label className="label">Password</label>
+          <input type="password" className="input" placeholder="Password" />
+          <div><a className="link link-hover">Forgot password?</a></div>
+          <button className="btn btn-neutral mt-4">Login</button>
+        </fieldset>
+        </form>
+        <p className="text-xl font-bold">Do not have an account? <Link className="text-green-300 underline" to={`/register`}>Register here.</Link></p>
+      </div>
+    </div>
+  </div>
+</div>
     );
 };
 
